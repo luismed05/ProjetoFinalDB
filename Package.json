@@ -1,0 +1,20 @@
+{
+  "name": "interface",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "client-install": "cd Client/coronahelp && npm install",
+    "server-install": "cd Server && npm install",
+    "server-start": "cd Server && npm start",
+    "client-start": "cd Client/coronahelp && npm start",
+    "install-all": " concurrent \"npm run server-install\" \"npm run client-install\"",
+    "start": " concurrent \"npm run server-start\" \"npm run client-start\""
+  },
+  "dependencies": {
+    "concurrently": "^1.0.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

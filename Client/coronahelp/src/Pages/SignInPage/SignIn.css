@@ -1,0 +1,49 @@
+.page{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-image: url('../../Assets/Images/bgLogin.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    max-width: 100vw;
+    height: 100vh;
+    font-size: 1rem;
+}
+
+.form{
+    background-color: rgba(137, 213, 222, 0.8);
+    border-radius: 5px;
+    display: flex;
+    padding: 0 1vw;
+    flex-direction: column;
+    width: 21vw;
+    min-height: 20vh;
+    border: 1px solid gray;
+}
+
+.form input{
+    margin-top: 0.5vh;
+    max-width: 100%;
+}
+
+.form label{
+    margin-top: 2vh;
+}
+
+.form button{
+    align-self: center;
+    margin-top: 2vh;
+    height: 15%;
+    width: 50%;
+    border-radius: 5px;
+}
+
+.form span{
+    margin-top: 1vh; 
+}
+
+.form a{
+    text-decoration: none;
+    margin-bottom: 1vh;
+}
