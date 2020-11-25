@@ -8,7 +8,7 @@ const Usuario = function(usuario){
     this.admin = usuario.Ehadmin
 };
 
-var debug = false;
+var debug = true;
 
 //Metodo da Contoller para trazer todos os usuarios cadastrados
 Usuario.index = async (req, result) => {
@@ -29,7 +29,7 @@ Usuario.login = async (req,result) => {
     let body = req.body
     let email = body.email
     let senha = body.senha
-    await sql.query(`SELECT * FROM usuario WHERE email = "${email}"`, (err,res) => {
+    await sql.query(`SELECT * FROM Usuario WHERE email = "${email}"`, (err,res) => {
         if(err){
             if(debug == true) console.log(err)
             console.log("Erro ao consultar usuario");
@@ -44,7 +44,7 @@ Usuario.login = async (req,result) => {
         if(debug == true) console.log(res)
         if(senha == res[0].senha){
             let token = Math.random() * (99999999 - 11111111) + 11111111;
-            sql.query(`UPDATE usuario SET tokenAcesso = "${token}" WHERE email = "${email}"`, (errToken,resToken) => {
+            sql.query(`UPDATE Usuario SET tokenAcesso = "${token}" WHERE email = "${email}"`, (errToken,resToken) => {
                 if(errToken){
                     if(debug == true) console.log(errToken);
                     console.log("Erro ao inserir token na tabela");
@@ -61,7 +61,7 @@ Usuario.login = async (req,result) => {
 //Metodo para verificar autenticação do usuario
 Usuario.auth = async (req,result) => {
     let body = req.body
-    await sql.query(`SELECT tokenAcesso FROM usuario WHERE email = "${body.email}"`, (err,res) => {
+    await sql.query(`SELECT tokenAcesso FROM Usuario WHERE email = "${body.email}"`, (err,res) => {
         if(err){
             if(debug == true) console.log(err)
             console.log("Erro ao consultar");
@@ -92,7 +92,7 @@ Usuario.auth = async (req,result) => {
 //Metodo para Deslogar usuario
 Usuario.logout = async (req,result) => {
     let body = req.body
-    await sql.query(`UPDATE usuario SET tokenAcesso = "NULL" WHERE email = "${body.email}"`, (err,res) => {
+    await sql.query(`UPDATE Usuario SET tokenAcesso = "NULL" WHERE email = "${body.email}"`, (err,res) => {
         if(err){
             if(debug == true) console.log(err)
             console.log("Erro ao atualizar tabela");
@@ -107,7 +107,7 @@ Usuario.logout = async (req,result) => {
 Usuario.show = async (req,result) => {
     let email = req.params.email
 
-    await sql.query(`SELECT * FROM usuario WHERE email = "${email}"`, (err,res) => {
+    await sql.query(`SELECT * FROM Usuario WHERE email = "${email}"`, (err,res) => {
         if(err){
             if(debug == true) console.log(err)
             console.log("Erro ao consultar usuario");
@@ -124,7 +124,7 @@ Usuario.create = async (req, result) => {
     let novoProp = req.body
 
     //Comandos DML para fazer inserção do usuario na tabela
-    await sql.query("INSERT INTO usuario SET ?", novoProp, (err,res) => {
+    await sql.query("INSERT INTO Usuario SET ?", novoProp, (err,res) => {
         if(err) {
             if(debug == true) console.log(err)
             console.log("erro ao cadastrar usuario");
@@ -140,7 +140,7 @@ Usuario.create = async (req, result) => {
 //Metodo da Controller para deletar linha de usuario
 Usuario.delete = async (req,result) => {
     let email = req.params.email;
-    await sql.query(`DELETE FROM usuario WHERE email = "${email}"`, (err,res) => {
+    await sql.query(`DELETE FROM Usuario WHERE email = "${email}"`, (err,res) => {
         if(err) {
             if(debug == true) console.log(err)
             console.log("erro ao deletar usuario");
