@@ -12,7 +12,7 @@ var debug = false;
 
 //Metodo da Contoller para trazer todos os usuarios cadastrados
 Usuario.index = async (req, result) => {
-    await sql.query("SELECT * FROM usuario", (err,res) => {
+    await sql.query("SELECT * FROM Usuario", (err,res) => {
         if(err){
             if(debug == true) console.log(err)
             console.log('erro ao realizar consulta');
