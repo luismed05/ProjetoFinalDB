@@ -2,7 +2,7 @@
 //------------------------------------------------
 module.exports = {
     host: "localhost",
-    user: "administrador",
-    password: "Luisfelipe9&",
+    user: "root",
+    password: "password",
     database: "CoronaHelpy"
 }
