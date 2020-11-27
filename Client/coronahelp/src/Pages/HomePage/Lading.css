@@ -39,13 +39,14 @@
 }
 
 .BigButton{
-    width: 25vw;
-    height: 50vh;
+    width: 25%;
+    height: 55%;
     background-color: red;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 2vh solid rgb(7, 7, 7, 0.6);
 }
 
 .BigButton span{
@@ -55,6 +56,31 @@
 
 .BigButton:hover{
     background-color: rgb(129, 9, 9);
-    width: 23vw;
-    height: 46vh;
+    width: 23%;
+    height: 51%;
+    cursor: pointer;
+}
+
+.ModalCallEmergency{
+    height: 90%;
+}
+
+.cardFormCall{
+    width: 100%;
+    padding: 2vh 15%;
+}
+
+.cardFormCall form {
+    width: 100%;
+}
+
+.PesoAltura{
+    display: flex;
+    flex-direction: row;
+    margin-top: 1vh;
+}
+
+.PesoAltura .form-group{
+    margin-right: 2vw;
+    width: 5vw;
 }
