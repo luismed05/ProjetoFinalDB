@@ -1,13 +1,13 @@
 import React, {useState,useEffect} from 'react';
 import { useHistory } from 'react-router-dom';
 import { GetUser, Logout, Auth, GetAllUsers, DelUser } from "../../Utils/api";
-import { Modal, Table } from 'react-bootstrap';
+import { Modal, Table, Card, Form, Button } from 'react-bootstrap';
 import useForceUpdate from 'use-force-update';
 import "./Lading.css";
 
 // import { Container } from './styles';
 
-export default function LadingPage() {
+export default function HomePage() {
     const forceUpdate = useForceUpdate();
     let history = useHistory();
     const [show, setShow] = useState(false);
@@ -20,7 +20,7 @@ export default function LadingPage() {
 
     useEffect(() => {
         let email = localStorage.getItem("userEmail");
-        let token = localStorage.getItem("token")
+        let token = localStorage.getItem("token");
         Auth(email,token)
         .then(res => {
             if(res.data.access == true){
@@ -71,7 +71,7 @@ export default function LadingPage() {
             )
     }
   return(
-      <div className="container">
+      <div>
           <Modal size="lg" show={show} onHide={handleClose}>
               <Table style={{maxWidth: "70vw"}}>
                   <thead>
@@ -99,15 +99,31 @@ export default function LadingPage() {
                       )}
                   </tbody>
               </Table>
-              <button onClick={handleClose} >Fechar</button>
+              <button style={{margin: '1vw 1vw',width: '30%'}} onClick={handleClose} >Fechar</button>
           </Modal>
-          {User.email}
-          {User.nome}
-          {User.admin == 1 && (
-              <button onClick={handleShow} >Painel de Administrador</button>
-          )}
-          
-          <button onClick={Sair} >Sair</button>
+        <div className="header">
+            <div>
+                CoronaHelpy
+            </div>
+            <div>
+                <Button variant="link" onClick={Sair} >Sair</Button>
+            </div>
+        </div>
+        <div className="FakeCard">
+            <div>
+                Bem Vindo {User.nome}
+            </div>
+            <div>
+                {User.admin == 1 && (
+                    <Button onClick={handleShow} >Painel de Administrador</Button>
+                )}
+            </div>
+        </div>
+        <div className="Conteudo" >
+            <div className="BigButton" onClick={() => alert("funcionou")}>
+                <span>Fazer Chamado</span>
+            </div>
+        </div>
       </div>
   );
 }

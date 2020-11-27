@@ -5,7 +5,7 @@ import {
 } from "react-router-dom";
 
 import SignInPage from './Pages/SignInPage';
-import LadingPage from './Pages/LadingPage';
+import HomePage from './Pages/HomePage';
 import SignUpPage from './Pages/SignUpPage';
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
     <Router>
       <Switch>
         <Route path="/" exact component={SignInPage}/>
-        <Route path="/home" exact component={LadingPage}/>
+        <Route path="/home" exact component={HomePage}/>
         <Route path="/Cadastrar" exact component={SignUpPage}/>
 
       </Switch>
