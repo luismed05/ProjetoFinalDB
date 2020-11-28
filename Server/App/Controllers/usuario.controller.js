@@ -8,7 +8,7 @@ const Usuario = function(usuario){
     this.admin = usuario.Ehadmin
 };
 
-var debug = true;
+var debug = false;
 
 //Metodo da Contoller para trazer todos os usuarios cadastrados
 Usuario.index = async (req, result) => {
@@ -121,8 +121,7 @@ Usuario.show = async (req,result) => {
 
 //Metodo da Controller para criar um novo usuario
 Usuario.create = async (req, result) => {
-    let novoProp = req.body
-
+    let novoProp = req.body.user
     //Comandos DML para fazer inserção do usuario na tabela
     await sql.query("INSERT INTO Usuario SET ?", novoProp, (err,res) => {
         if(err) {
