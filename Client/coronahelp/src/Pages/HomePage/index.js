@@ -111,6 +111,14 @@ export default function HomePage() {
                             <Form.Check label="Perda de fala ou movimento" />
                         </div>
                     </Form.Group>
+                    <Form.Group>
+                        <Form.Label><strong>Escolha o plano de saude</strong></Form.Label>
+                        <Form.Control as='select' style={{width: '30%'}}>
+                            <option>Amil</option>
+                            <option>Unimed</option>
+                            <option>SUS</option>
+                        </Form.Control>
+                    </Form.Group>
                     <Button type="submit">Fazer Chamado</Button>
                 </Form>
               </Card>
