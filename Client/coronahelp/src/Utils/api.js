@@ -32,3 +32,7 @@ export const DelUser = (email) => {
 export const Logout = (email) => {
     return api.post('/SignOut', { email });
 }
+
+export const CadPaciente = (paciente) => {
+    return api.post('/Cadpaciente', {paciente});
+}
