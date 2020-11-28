@@ -16,12 +16,15 @@ export default function HomePage() {
     const [User,setUser] = useState({email: "",nome: "", admin: ""});
     const [Users,setUsers] = useState([]);
 
+    //State de Paciente
+    const [Genero, setGenero] = useState("")
+
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     const handleCloseCall = () => setshowCall(false);
     const handleShowCall = () => setshowCall(true);
-
+    
     useEffect(() => {
         let email = localStorage.getItem("userEmail");
         let token = localStorage.getItem("token");
@@ -53,6 +56,11 @@ export default function HomePage() {
         })
     },[])
 
+    const GetGenero = (event) => {
+        console.log(event.target.value)
+        setGenero(event.target.value);
+    }
+
     const DeletarUsuario = async(email) => {
         await DelUser(email)
         .then(res => {
@@ -78,27 +86,27 @@ export default function HomePage() {
                 <Form>
                     <Form.Group>
                         <Form.Label>Cpf:</Form.Label>
-                        <Form.Control type="number" placeholder="Ex. xxx.xxx.xxx-xx"></Form.Control>
+                        <Form.Control type="number" placeholder="Ex. 11111111111"></Form.Control>
                         <Form.Label>Nome do Paciente:</Form.Label>
                         <Form.Control></Form.Control>
                         <Form.Group>
                             <Form.Label>Genero:</Form.Label>
-                            <div style={{marginLeft: '1vw',display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                <Form.Check inline name="Genero" type="radio" label="Masculino" />
-                                <Form.Check inline name="Genero" type="radio" label="Feminino" />
-                                <Form.Check inline name="Genero" type="radio" label="Não desejo informar" />
+                            <div onChange={GetGenero} style={{marginLeft: '1vw',display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                                <Form.Check inline name="Genero" type="radio" value="Masculino" label="Masculino" />
+                                <Form.Check inline name="Genero" type="radio" value="Feminino" label="Feminino" />
+                                <Form.Check inline name="Genero" type="radio" value="Não desejo informar" label="Não desejo informar" />
                             </div>
                         </Form.Group>
                         <Form.Label>Data de Nascimento:</Form.Label>
-                        <Form.Control></Form.Control>
+                        <Form.Control type="date"></Form.Control>
                         <div className="PesoAltura">
                             <Form.Group>
                                 <Form.Label>Peso:</Form.Label>
-                                <Form.Control type="number" placeholder="ex. 98,5"></Form.Control>
+                                <Form.Control step="0.01" type="number" placeholder="ex. 98,5"></Form.Control>
                             </Form.Group>
                             <Form.Group>
                                 <Form.Label>Altura:</Form.Label>
-                                <Form.Control type="number" placeholder="ex. 1,87" ></Form.Control>
+                                <Form.Control step="0.01" type="number" placeholder="ex. 1,87" ></Form.Control>
                             </Form.Group>
                         </div>
                         <Form.Label>Selecione os sintomas:</Form.Label>
