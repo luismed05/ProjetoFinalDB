@@ -1,3 +1,5 @@
+USE coronahelpy;
+
 INSERT INTO Usuario (email,senha,nome,Ehadmin)
 VALUES ('admin@admin','123456','Administrador',1);
 

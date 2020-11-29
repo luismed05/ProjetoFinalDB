@@ -23,9 +23,9 @@ BEGIN
 		SELECT h.id 
         From Hospital as h
         JOIN Hospital_aceita_plano as hp ON h.id = hp.hospital_id
-        JOIN PlanoDeSaude AS ps ON ps.codigo = hp.id
+        JOIN PlanoDeSaude AS ps ON ps.codigo = hp.PlanoDeSaude_codigo
         WHERE (ps.codigo = plano_saude_pacienteCod) LIMIT 1
-    );
+    ); 
     
     SET leito_numero = ( 
 		SELECT l.Numero
@@ -47,12 +47,6 @@ BEGIN
         WHERE (a.hospital_id = Hospital_id AND a.disponivel = 1) LIMIT 1
     );
     
-    UPDATE Ambulancia SET disponivel = 0 WHERE placa = ambulancia_placa;
-    
-    UPDATE Equipe SET disponivel = 0 WHERE id = equipe_id;
-    
-    UPDATE Leito SET disponivel = 0 WHERE Numero = leito_numero;
-    
     INSERT INTO Atendimento (
         Urgencia,
         data_inicio,
@@ -64,15 +58,23 @@ BEGIN
         ambulancia_placa,
         localizacao_Cod
 	)
-    VALUES (Urgencia,
+    VALUES (
+		Urgencia,
 		data_inicio,
         data_fim,
         email_user,
+        equipe_id,
         paciente_cpf,
         leito_numero,
         ambulancia_placa,
         localizacao_paciente
 	);
+    
+    UPDATE Ambulancia SET disponivel = 0 WHERE placa = ambulancia_placa;
+    
+    UPDATE Equipe SET disponivel = 0 WHERE id = equipe_id;
+    
+    UPDATE Leito SET disponivel = 0 WHERE Numero = leito_numero;
     
     SET Id_Atendimento = LAST_INSERT_ID();
 END$$

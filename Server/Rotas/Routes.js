@@ -4,7 +4,11 @@ module.exports = app => {
 
     const Pacientes = require("../App/Controllers/paciente.controller");
 
-    const Proprietarios = require("../App/Controllers/proprietario.controller.js");
+    const Atendimentos = require("../App/Controllers/atendimento.controller.js");
+
+    const PlanoSaude = require("../App/Controllers/planodesaude.controller.js");
+
+
 
     //Rotas padrões de Usuarios
     app.get('/users', Usuarios.index)
@@ -14,6 +18,12 @@ module.exports = app => {
 
     //Rotas padrões de Pacientes
     app.post('/Cadpaciente', Pacientes.create);
+
+    //Rotas para plano de saude
+    app.get('/getPlanos',PlanoSaude.index);
+
+    //Rotas de Atendimento
+    app.post('/callAmbulance', Atendimentos.create);
 
     //Rotas para autenticação de usuario
     app.post('/Signin', Usuarios.login)

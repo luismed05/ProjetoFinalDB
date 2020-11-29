@@ -24,11 +24,22 @@ Atendimento.create = async (req,result) => {
         ${createAtt.data_fim},${id_atendimento})`, (err,res) => {
             if(err){
                 if(debug == true) console.log(err)
-                console("erro na criação do atendimento");
+                console.log("erro na criação do atendimento");
                 result.status(500).send({ message: "Erro na criação do atendimento"});
                 return false;
             }
 
             //chamar VIEW para mostrar dados do atendimento
+            sql.query('SELECT * FROM coronahelpy.atendimento_info WHERE `Codigo do atendimento` = ?;', 
+                id_atendimento, 
+                (err,resSelect)=>{
+                    if(err){
+                        if(debug == true) console.log(err)
+                        console.log('Erro ao buscar atendimento');
+                    }
+                    result.status(200).send({data: resSelect});
+            });
         })
 }
+
+module.exports = Atendimento;

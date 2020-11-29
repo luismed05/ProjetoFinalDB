@@ -36,3 +36,11 @@ export const Logout = (email) => {
 export const CadPaciente = (paciente) => {
     return api.post('/Cadpaciente', {paciente});
 }
+
+export const getPlanos = () => {
+    return api.get('/getPlanos');
+}
+
+export const makethecall = (call) => {
+    return api.post('/callAmbulance', {call});
+}
