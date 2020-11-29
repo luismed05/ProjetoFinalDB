@@ -122,7 +122,7 @@ export default function HomePage() {
     }
 
     const CadPaciente = async() => {
-
+        
     }
 
     const SendAtendimento = async(event) => {
@@ -140,7 +140,8 @@ export default function HomePage() {
             email_user: User.email,
             data_inicio: new Date
         }
-        makethecall()
+        console.log(call)
+        // makethecall()
     }
 
     const Sair = async(event) => {

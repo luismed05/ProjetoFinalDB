@@ -6,11 +6,10 @@ CREATE
 VIEW `show_hospitais` AS
     SELECT 
         `h`.`nome` AS `Nome do Hospital`,
-        `l`.`endereço` AS `Endereço`,
+        `h`.`endereco` AS `Endereço`,
         COUNT(`le`.`Numero`) AS `Leitos Disponiveis`
     FROM
-        (((`hospital` `h`
-        JOIN `localizacao` `l` ON ((`h`.`Localizacao_Cod` = `l`.`longitude_latitude`)))
+        (((`hospital` `h`)
         JOIN `ala` `a` ON ((`a`.`hospital_id` = `h`.`id`)))
         JOIN `leito` `le` ON ((`le`.`Ala_id` = `a`.`id`)))
     WHERE 

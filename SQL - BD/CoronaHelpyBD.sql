@@ -26,17 +26,12 @@ CREATE TABLE IF NOT EXISTS Paciente (
     sintomas TEXT(150) NOT NULL,
 PRIMARY KEY(cpf));
 
-CREATE TABLE IF NOT EXISTS Localizacao (
-    longitude_latitude VARCHAR(45) NOT NULL,
-    endereço TEXT(150) NOT NULL,
-PRIMARY KEY(Longitude_Latitude));
-
 CREATE TABLE IF NOT EXISTS Hospital (
     id INT NOT NULL,
     nome VARCHAR(45) NOT NULL,
-    Localizacao_Cod VARCHAR(45) NOT NULL,
-PRIMARY KEY(id),
-FOREIGN KEY(Localizacao_Cod) REFERENCES Localizacao(longitude_latitude));
+    localizacao VARCHAR(45) NOT NULL,
+    endereco TEXT(150) NOT NULL,
+PRIMARY KEY(id));
 
 CREATE TABLE IF NOT EXISTS Hospital_aceita_plano (
     id INT NOT NULL,
@@ -97,17 +92,17 @@ CREATE TABLE IF NOT EXISTS Atendimento (
     id INT NOT NULL AUTO_INCREMENT,
     Urgencia VARCHAR(45) NOT NULL,
     data_inicio DATETIME(6) NOT NULL,
-    data_fim DATETIME(6) NOT NULL, 
+    data_fim DATETIME(6) DEFAULT NULL, 
     usuario_email VARCHAR(45) NOT NULL,
     equipe_id INT NOT NULL,
     paciente_cpf BIGINT NOT NULL,
     leito_numero INT NOT NULL,
     ambulancia_placa VARCHAR(45) NOT NULL,
-    localizacao_Cod VARCHAR(45) NOT NULL,
+    localizacao VARCHAR(45) NOT NULL,
+    endereco VARCHAR(45) NOT NULL,
 PRIMARY KEY(id),
 FOREIGN KEY(usuario_email) REFERENCES Usuario(email),
 FOREIGN KEY(equipe_id) REFERENCES Equipe(id),
 FOREIGN KEY(paciente_cpf) REFERENCES Paciente(cpf),
 FOREIGN KEY(leito_numero) REFERENCES Leito(numero),
-FOREIGN KEY(ambulancia_placa) REFERENCES Ambulancia(placa),
-FOREIGN KEY(localizacao_Cod) REFERENCES Localizacao(longitude_latitude));
+FOREIGN KEY(ambulancia_placa) REFERENCES Ambulancia(placa));
