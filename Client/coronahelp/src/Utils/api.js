@@ -44,3 +44,7 @@ export const getPlanos = () => {
 export const makethecall = (call) => {
     return api.post('/callAmbulance', {call});
 }
+
+export const finalizarAtt = (id) => {
+    return api.delete(`/finalizarAtt/${id}`);
+}

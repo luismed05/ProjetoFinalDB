@@ -1,5 +1,5 @@
 USE `coronahelpy`;
-DROP procedure IF EXISTS `Criar_Atendimento`;
+DROP PROCEDURE IF EXISTS `Criar_Atendimento`;
 
 DELIMITER $$
 USE `coronahelpy`$$
@@ -10,7 +10,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `Criar_Atendimento`(
     IN Urgencia VARCHAR(45),
     IN email_user VARCHAR(45),
     IN data_inicio DATETIME(6),
-    IN data_fim DATETIME(6),
     OUT Id_Atendimento INT
     )
 BEGIN
@@ -50,7 +49,6 @@ BEGIN
     INSERT INTO Atendimento (
         Urgencia,
         data_inicio,
-        data_fim,
         usuario_email,
         equipe_id,
         paciente_cpf,
@@ -61,7 +59,6 @@ BEGIN
     VALUES (
 		Urgencia,
 		data_inicio,
-        data_fim,
         email_user,
         equipe_id,
         paciente_cpf,
@@ -75,7 +72,7 @@ BEGIN
     UPDATE Equipe SET disponivel = 0 WHERE id = equipe_id;
     
     UPDATE Leito SET disponivel = 0 WHERE Numero = leito_numero;
-    
+     
     SET Id_Atendimento = LAST_INSERT_ID();
 END$$
 

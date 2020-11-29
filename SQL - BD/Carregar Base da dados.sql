@@ -13,17 +13,11 @@ INSERT INTO PlanoDeSaude (codigo,nome)
 VALUES (0001,'SUS');
 
 INSERT INTO Paciente (cpf,nome,genero,data_de_nascimento,peso,altura,sintomas)
-VALUES (07199011466,'Admin loco da vida', 'masculino','1996-05-26', '93,4', '1,72', 
+VALUES (07199011466,'Luis Felipe de Assis Medeiros', 'masculino','1996-05-26', '93,4', '1,72', 
 'Tosse Seca;Febre;Cansaço');
 
-INSERT INTO Localizacao (longitude_latitude,endereço)
-VALUES ('-15.8226876#-47.9029', 'SQS 209, bloco E apto 604');
-
-INSERT INTO Localizacao (longitude_latitude,endereço)
-VALUES ('-15.7975293#-47.8908346', 'SMHS - Área Especial, Qd 501 - Asa Sul, Brasília - DF');
-
-INSERT INTO Hospital (id,nome,Localizacao_Cod)
-VALUES (10001, 'Rede Sarah de Hospitais de Reabilitação','-15.7975293#-47.8908346');
+INSERT INTO Hospital (id,nome,localizacao,endereco)
+VALUES (10001, 'Rede Sarah de Hospitais de Reabilitação','-15.7975293#-47.8908346','SMHS - Área Especial, Qd 501 - Asa Sul, Brasília - DF');
 
 INSERT INTO Hospital_aceita_plano (id,hospital_id,PlanoDeSaude_codigo)
 VALUES (8001,10001,0001);
@@ -81,5 +75,3 @@ VALUES (1000102, 'José Silva Costa', 'Cardiologista', 10001);
 
 INSERT INTO Equipe (id,disponivel,tecnico_matricula,medico_matricula)
 VALUES (10001001, 1, 1000101,1000102);
-
-
