@@ -15,8 +15,9 @@ CREATE TABLE IF NOT EXISTS PlanoDeSaude (
     nome VARCHAR(45) NOT NULL,
 PRIMARY KEY (codigo));
 
+#Falta uma Key de referencia ao plano de saude
 CREATE TABLE IF NOT EXISTS Paciente (
-	cpf INT NOT NULL,
+	cpf BIGINT NOT NULL,
     nome VARCHAR(45) NOT NULL,
     genero VARCHAR(45) NOT NULL,
     data_de_nascimento DATE NOT NULL,
@@ -27,7 +28,7 @@ PRIMARY KEY(cpf));
 
 CREATE TABLE IF NOT EXISTS Localizacao (
     longitude_latitude VARCHAR(45) NOT NULL,
-    endereço VARCHAR(45) NOT NULL,
+    endereço TEXT(150) NOT NULL,
 PRIMARY KEY(Longitude_Latitude));
 
 CREATE TABLE IF NOT EXISTS Hospital (
@@ -48,13 +49,14 @@ FOREIGN KEY(PlanoDeSaude_codigo) REFERENCES PlanoDeSaude(codigo));
 CREATE TABLE IF NOT EXISTS Ala (
     id INT NOT NULL,
     urgencia_minima VARCHAR(45) NOT NULL,
+    localizacao TEXT(150) NOT NULL,
     hospital_id int NOT NULL,
 PRIMARY KEY(id),
 FOREIGN KEY(hospital_id) REFERENCES Hospital(id));
 
 CREATE TABLE IF NOT EXISTS Leito (
     Numero INT NOT NULL,
-    disponivel VARCHAR(45) NOT NULL,
+    disponivel TINYINT NOT NULL,
     Ala_id INT NOT NULL,
 PRIMARY KEY(Numero),
 FOREIGN KEY(Ala_id) REFERENCES Ala(id));
@@ -63,6 +65,7 @@ CREATE TABLE IF NOT EXISTS Ambulancia (
     placa VARCHAR(45) NOT NULL,
     modelo VARCHAR(45) NOT NULL,
     hospital_id INT NOT NULL,
+    disponivel TINYINT NOT NULL,
 PRIMARY KEY(placa),
 FOREIGN KEY(hospital_id) REFERENCES Hospital(id));
 
@@ -91,13 +94,13 @@ FOREIGN KEY(tecnico_matricula) REFERENCES Tecnico(matricula),
 FOREIGN KEY(medico_matricula) REFERENCES Medico(matricula));
 
 CREATE TABLE IF NOT EXISTS Atendimento (
-    id INT NOT NULL,
+    id INT NOT NULL AUTO_INCREMENT,
     Urgencia VARCHAR(45) NOT NULL,
     data_inicio DATETIME(6) NOT NULL,
     data_fim DATETIME(6) NOT NULL, 
     usuario_email VARCHAR(45) NOT NULL,
     equipe_id INT NOT NULL,
-    paciente_cpf INT NOT NULL,
+    paciente_cpf BIGINT NOT NULL,
     leito_numero INT NOT NULL,
     ambulancia_placa VARCHAR(45) NOT NULL,
     localizacao_Cod VARCHAR(45) NOT NULL,
