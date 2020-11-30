@@ -6,7 +6,10 @@ import { GetUser,
         GetAllUsers, 
         getPlanos, 
         DelUser,
-        makethecall 
+        makethecall,
+        getPaciente,
+        updatePaciente,
+        cadPaciente
     } from "../../Utils/api";
 import { Modal, Table, Card, Form, Row, Button } from 'react-bootstrap';
 import useForceUpdate from 'use-force-update';
@@ -34,22 +37,24 @@ export default function HomePage() {
     const [Peso, setPeso] = useState("");
     const [Altura, setAltura] = useState("");
     const [Sintomas, setSintomas] = useState("");
-    const [Urgencia, setUrgencia] = useState("");
+    const [Urgencia, setUrgencia] = useState("baixa");
     const [Localizacao, setLocalizacao] = useState("");
+    const [Endereco, setEndereco] = useState("");
 
     //State para criação de atendimento
-    const [PlanoSaude, setPlanoSaude] = useState("");
+    const [PlanoSaude, setPlanoSaude] = useState(null);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     const handleCloseCall = () => {
         setNome("");
-        setData("");
+        setData(null);
         setPeso("");
         setAltura("");
         setSintomas("");
         setUrgencia("");
+        setEndereco("");
         setshowCall(false);
     };
     const handleShowCall = () => setshowCall(true);
@@ -62,7 +67,7 @@ export default function HomePage() {
             navigator.geolocation.getCurrentPosition( (pos) => {
                 setLocalizacao(`${pos.coords.latitude}#${pos.coords.latitude}`)
             });
-            if(res.data.access == true){
+            if(res.data.access === true){
                 GetUser(email)
                 .then(res => {
                     setUser({
@@ -78,7 +83,8 @@ export default function HomePage() {
                     getPlanos()
                         .then(resPlanos => {
                           let planos = resPlanos.data.res;
-                          setPlanos(planos); 
+                          setPlanos(planos);
+                          setPlanoSaude(planos[0].codigo);
                           
                         })
                 })
@@ -121,27 +127,52 @@ export default function HomePage() {
         }
     }
 
-    const CadPaciente = async() => {
-        
+    const CadPaciente = async(event) => {
+        const paciente = {
+            cpf: Cpf,
+            nome: Nome,
+            genero: Genero,
+            data_de_nascimento: Data,
+            peso: Peso,
+            altura: Altura, 
+            sintomas: Sintomas
+        }
+        //console.log(paciente);
+        await getPaciente(Cpf).then(res=>{
+            console.log(res);
+            updatePaciente(Cpf, paciente);
+        }).catch(err => {
+            if(err.response.status === 404){
+                cadPaciente(paciente).then(res=>{
+                    //console.log(res);
+                }).catch(err=>{
+                    //console.log(err);
+                })
+            }
+            else{
+                console.log(err);
+            }
+        })
     }
 
     const SendAtendimento = async(event) => {
         event.preventDefault();
-        console.log(Sintomas);
-        console.log(Urgencia);
-        console.log(PlanoSaude);
-        await CadPaciente;
-
-        var call = {
-            paciente_cpf: Cpf,
-            localizacao_paciente: Localizacao,
-            plano_saude_pacienteCod: PlanoSaude,
-            Urgencia: Urgencia,
-            email_user: User.email,
-            data_inicio: new Date
-        }
-        console.log(call)
-        // makethecall()
+        // console.log(Sintomas);
+        // console.log(Urgencia);
+        // console.log(PlanoSaude);
+       CadPaciente(event).then(res=>{
+            const call = {
+                paciente_cpf: Cpf,
+                localizacao_paciente: Localizacao,
+                plano_saude_pacienteCod: PlanoSaude,
+                Urgencia: Urgencia,
+                email_user: User.email,
+                endereco_paciente: Endereco,
+                data_inicio: new Date().toISOString().slice(0, 19).replace('T', ' ')
+            }
+            console.log(call);
+            makethecall(call);
+         });
     }
 
     const Sair = async(event) => {
@@ -166,6 +197,10 @@ export default function HomePage() {
                         <Form.Label>Nome do Paciente:</Form.Label>
                         <Form.Control
                             onChange={(event => setNome(event.target.value))}
+                        ></Form.Control>
+                        <Form.Label>Endereço do Paciente:</Form.Label>
+                        <Form.Control
+                            onChange={(event => setEndereco(event.target.value))}
                         ></Form.Control>
                         <Form.Group>
                             <Form.Label>Genero:</Form.Label>
@@ -291,7 +326,7 @@ export default function HomePage() {
                 Bem Vindo {User.nome}
             </div>
             <div>
-                {User.admin == 1 && (
+                {User.admin === 1 && (
                     <Button onClick={handleShow} >Painel de Administrador</Button>
                 )}
             </div>

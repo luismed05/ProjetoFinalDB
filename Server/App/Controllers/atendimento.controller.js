@@ -1,4 +1,5 @@
 const sql = require('../../DataBase/db.js');
+const debug = true;
 
 const Atendimento = function(att){
     this.paciente_cpf = att.paciente_cpf,
@@ -16,33 +17,32 @@ Atendimento.show = async (req,result) => {
 
 Atendimento.create = async (req,result) => {
     let createAtt = req.body.call
-    let id_atendimento;
 
-    await sql.query(`CALL Criar_Atendimento(
-        ${createAtt.paciente_cpf},
-        ${createAtt.localizacao_paciente},
-        ${createAtt.plano_saude_pacienteCod},
-        ${createAtt.Urgencia},
-        ${createAtt.email_user},
-        ${createAtt.data_inicio},
-        ${createAtt.data.endereco_paciente},
-        ${id_atendimento})`, (err,res) => {
+    sql.query('SET @id_atendimento = NULL')
+    await sql.query("CALL Criar_Atendimento(?,?,?,?,?,?,?, @id_atendimento)",
+    [   createAtt.paciente_cpf,
+        createAtt.localizacao_paciente,
+        createAtt.plano_saude_pacienteCod,
+        createAtt.Urgencia,
+        createAtt.email_user,
+        createAtt.data_inicio,
+        createAtt.endereco_paciente], (err,res) => {
             if(err){
-                if(debug == true) console.log(err)
-                console.log("erro na criação do atendimento");
-                result.status(500).send({ message: "Erro na criação do atendimento"});
+                if(debug === true) console.log(err);
+                console.log("[Atendimento] Erro na criação");
+                result.status(500).send({ message: "[Atendimento] Erro na criação"});
                 return false;
             }
 
             //chamar VIEW para mostrar dados do atendimento
-            sql.query('SELECT * FROM coronahelpy.atendimento_info WHERE `Codigo do atendimento` = ?;', 
-                id_atendimento, 
+            sql.query('SELECT * FROM CoronaHelpy.atendimento_info WHERE `Codigo do atendimento` = @id_atendimento;',
                 (err,resSelect)=>{
                     if(err){
                         if(debug == true) console.log(err)
-                        console.log('Erro ao buscar atendimento');
+                        console.log('[Atendimento] Erro na busca');
                     }
-                    result.status(200).send({data: resSelect});
+                    console.log("[Atendimento] - Criado com sucesso!");
+                    result.status(200).send({data: resSelect, message: "[Atendimento] - Criado com sucesso!"});
             });
         })
 }
