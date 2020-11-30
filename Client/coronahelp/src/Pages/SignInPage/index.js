@@ -15,20 +15,18 @@ export default function SignInPage() {
 
     const auth = async (event) => {
         event.preventDefault();
-        console.log(Email, Password)
-        await login(Email,Password)
+        console.log(Email, Password);
+        await login(Email, Password)
         .then(res => {
-
-            localStorage.setItem('token', res.data.token)
+            localStorage.setItem('token', res.data.token);
             localStorage.setItem('userEmail', Email);
             
-
-            history.push("/home")
+            history.push("/home");
         })
         .catch(err => {
-            console.log(err.response.status)
+            console.log(err.response.status);
             let statusCode = err.response.status;
-            if( statusCode == 404 ) alert("Usuario não cadastrado");
+            if( statusCode === 404 ) alert("Usuario não cadastrado");
         })
     }
 
