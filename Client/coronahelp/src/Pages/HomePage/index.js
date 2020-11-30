@@ -122,7 +122,7 @@ export default function HomePage() {
     }
 
     const CadPaciente = async() => {
-        
+        console.log("cheguei no cad")
     }
 
     const SendAtendimento = async(event) => {
