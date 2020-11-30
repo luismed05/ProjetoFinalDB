@@ -17,7 +17,7 @@ PRIMARY KEY (codigo));
 
 #Falta uma Key de referencia ao plano de saude
 CREATE TABLE IF NOT EXISTS Paciente (
-	cpf BIGINT NOT NULL,
+	cpf VARCHAR(45) NOT NULL,
     nome VARCHAR(45) NOT NULL,
     genero VARCHAR(45) NOT NULL,
     data_de_nascimento DATE NOT NULL,
@@ -94,10 +94,10 @@ CREATE TABLE IF NOT EXISTS Atendimento (
     data_inicio DATETIME(6) NOT NULL,
     data_fim DATETIME(6) DEFAULT NULL, 
     usuario_email VARCHAR(45) NOT NULL,
-    equipe_id INT NOT NULL,
-    paciente_cpf BIGINT NOT NULL,
-    leito_numero INT NOT NULL,
-    ambulancia_placa VARCHAR(45) NOT NULL,
+    equipe_id INT DEFAULT NULL,
+    paciente_cpf VARCHAR(45) NOT NULL,
+    leito_numero INT DEFAULT NULL,
+    ambulancia_placa VARCHAR(45) DEFAULT NULL,
     localizacao VARCHAR(45) NOT NULL,
     endereco VARCHAR(45) NOT NULL,
 PRIMARY KEY(id),
