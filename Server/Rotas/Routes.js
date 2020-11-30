@@ -18,7 +18,9 @@ module.exports = app => {
     // app.put('/user/:email', Usuarios.update)
 
     //Rotas padrões de Pacientes
-    app.post('/Cadpaciente', Pacientes.create);
+    app.post('/paciente', Pacientes.create);
+    app.put('/paciente/:cpf', Pacientes.update)
+    app.get('/paciente/:cpf', Pacientes.show);
 
     //Rotas para plano de saude
     app.get('/getPlanos',PlanoSaude.index);
