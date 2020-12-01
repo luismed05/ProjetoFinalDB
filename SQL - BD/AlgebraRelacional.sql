@@ -1,4 +1,4 @@
-use coronahelpy;
+use CoronaHelpy;
 
 SELECT nome as 'Nome do Hospital', 
 	a.localizacao as 'Setor de localização', 

@@ -6,7 +6,11 @@ import { GetUser,
         GetAllUsers, 
         getPlanos, 
         DelUser,
-        makethecall 
+        makethecall,
+        getPaciente,
+        updatePaciente,
+        cadPaciente,
+        checkAtendimento
     } from "../../Utils/api";
 import { Modal, Table, Card, Form, Row, Button } from 'react-bootstrap';
 import useForceUpdate from 'use-force-update';
@@ -34,22 +38,33 @@ export default function HomePage() {
     const [Peso, setPeso] = useState("");
     const [Altura, setAltura] = useState("");
     const [Sintomas, setSintomas] = useState("");
-    const [Urgencia, setUrgencia] = useState("");
+    const [Urgencia, setUrgencia] = useState("baixa");
     const [Localizacao, setLocalizacao] = useState("");
+    const [Endereco, setEndereco] = useState("");
+
+    //State change component
+    const [ShowAtt, setShowAtt] = useState(false);
+
+    //State de Atendimento
+    const [CodigoAtt, setCodigoAtt] = useState("");
+    const [MedicoRes, setMedicoRes] = useState("");
+    const [PlacaAmb, setPlacaAmb] = useState("");
+    const [UrgenciaAtt, setUrgenciaAtt] = useState("");
 
     //State para criação de atendimento
-    const [PlanoSaude, setPlanoSaude] = useState("");
+    const [PlanoSaude, setPlanoSaude] = useState(null);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     const handleCloseCall = () => {
         setNome("");
-        setData("");
+        setData(null);
         setPeso("");
         setAltura("");
         setSintomas("");
         setUrgencia("");
+        setEndereco("");
         setshowCall(false);
     };
     const handleShowCall = () => setshowCall(true);
@@ -62,7 +77,7 @@ export default function HomePage() {
             navigator.geolocation.getCurrentPosition( (pos) => {
                 setLocalizacao(`${pos.coords.latitude}#${pos.coords.latitude}`)
             });
-            if(res.data.access == true){
+            if(res.data.access === true){
                 GetUser(email)
                 .then(res => {
                     setUser({
@@ -78,9 +93,22 @@ export default function HomePage() {
                     getPlanos()
                         .then(resPlanos => {
                           let planos = resPlanos.data.res;
-                          setPlanos(planos); 
-                          
+                          setPlanos(planos);
                         })
+                    checkAtendimento(email)
+                    .then(resAtt => {
+                        console.log(resAtt);
+                        setShowAtt(true);
+                        setshowCall(false);
+                        let att = resAtt.data.resSelect[0];
+                        setCodigoAtt(att.Codigo_do_atendimento);
+                        setPlacaAmb(att.Placa_da_Ambulancia);
+                        setMedicoRes(att.Medico_Responsavel);
+                        setUrgenciaAtt(att.Urgencia_de_Atendimento); 
+                    })
+                    .catch(err => {
+                        console.log(err.response.data.message);
+                    })
                 })
             }else{
                 throw "error";
@@ -121,27 +149,59 @@ export default function HomePage() {
         }
     }
 
-    const CadPaciente = async() => {
-        console.log("cheguei no cad")
+    const CadPaciente = async(event) => {
+        const paciente = {
+            cpf: Cpf,
+            nome: Nome,
+            genero: Genero,
+            data_de_nascimento: Data,
+            peso: Peso,
+            altura: Altura, 
+            sintomas: Sintomas
+        }
+        //console.log(paciente);
+        await getPaciente(Cpf).then(res=>{
+            console.log(res);
+            updatePaciente(Cpf, paciente);
+        }).catch(err => {
+            if(err.response.status === 404){
+                cadPaciente(paciente).then(res=>{
+                    console.log(res);
+                }).catch(err=>{
+                    console.log(err);
+                })
+            }
+            else{
+                console.log(err);
+            }
+        })
     }
 
     const SendAtendimento = async(event) => {
         event.preventDefault();
-        console.log(Sintomas);
-        console.log(Urgencia);
-        console.log(PlanoSaude);
-        await CadPaciente;
-
-        var call = {
-            paciente_cpf: Cpf,
-            localizacao_paciente: Localizacao,
-            plano_saude_pacienteCod: PlanoSaude,
-            Urgencia: Urgencia,
-            email_user: User.email,
-            data_inicio: new Date
-        }
-        console.log(call)
-        // makethecall()
+       CadPaciente(event)
+        .then(res=>{
+            const call = {
+                paciente_cpf: Cpf,
+                localizacao_paciente: Localizacao,
+                plano_saude_pacienteCod: PlanoSaude,
+                Urgencia: Urgencia,
+                email_user: User.email,
+                endereco_paciente: Endereco,
+                data_inicio: new Date().toISOString().slice(0, 19).replace('T', ' ')
+            }
+            makethecall(call)
+            .then(resCall => {
+                setShowAtt(true);
+                setshowCall(false);
+                console.log(resCall);
+                let att = resCall.data.resSelect[0];
+                setCodigoAtt(att.Codigo_do_atendimento);
+                setPlacaAmb(att.Placa_da_Ambulancia);
+                setMedicoRes(att.Medico_Responsavel);
+                setUrgenciaAtt(att.Urgencia_de_Atendimento); 
+            } )
+        });
     }
 
     const Sair = async(event) => {
@@ -166,6 +226,10 @@ export default function HomePage() {
                         <Form.Label>Nome do Paciente:</Form.Label>
                         <Form.Control
                             onChange={(event => setNome(event.target.value))}
+                        ></Form.Control>
+                        <Form.Label>Endereço do Paciente:</Form.Label>
+                        <Form.Control
+                            onChange={(event => setEndereco(event.target.value))}
                         ></Form.Control>
                         <Form.Group>
                             <Form.Label>Genero:</Form.Label>
@@ -199,6 +263,7 @@ export default function HomePage() {
                         </div>
                         <Form.Label>Urgencia:</Form.Label>
                         <Form.Control as='select' onChange={(event => setUrgencia(event.target.value))}>
+                            <option></option>
                             <option value="baixa">Baixa</option>
                             <option value="media">Media</option>
                             <option value="alta">Alta</option>
@@ -291,15 +356,33 @@ export default function HomePage() {
                 Bem Vindo {User.nome}
             </div>
             <div>
-                {User.admin == 1 && (
+                {User.admin === 1 && (
                     <Button onClick={handleShow} >Painel de Administrador</Button>
                 )}
             </div>
         </div>
         <div className="Conteudo" >
-            <div className="BigButton" onClick={handleShowCall}>
+            {ShowAtt == false ? (
+                <div className="BigButton" onClick={handleShowCall}>
                 <span>Fazer Chamado</span>
             </div>
+            ) : (
+                <Card>
+                    <Card.Title>Detalhes de Atendimento</Card.Title>
+                    <Card.Body>
+                        <Form>
+                            <Form.Label>Codigo do Atendimento</Form.Label>
+                            <Form.Control disabled value={CodigoAtt}/>
+                            <Form.Label>Placa da Ambulancia</Form.Label>
+                            <Form.Control disabled value={PlacaAmb}/>
+                            <Form.Label>Medico Responsavel pelo Atendimento</Form.Label>
+                            <Form.Control disabled value={MedicoRes}/>
+                            <Form.Label>Urgencia do atendimento</Form.Label>
+                            <Form.Control disabled value={UrgenciaAtt}/>
+                        </Form>
+                    </Card.Body>
+                </Card>
+            )}
         </div>
       </div>
   );

@@ -1,4 +1,4 @@
-USE `coronahelpy`;
+USE `CoronaHelpy`;
 CREATE 
      OR REPLACE ALGORITHM = UNDEFINED 
     DEFINER = `root`@`localhost` 
@@ -9,7 +9,7 @@ VIEW `show_hospitais` AS
         `h`.`endereco` AS `Endereço`,
         COUNT(`le`.`Numero`) AS `Leitos Disponiveis`
     FROM
-        (((`hospital` `h`)
+        (((`Hospital` `h`)
         JOIN `ala` `a` ON ((`a`.`hospital_id` = `h`.`id`)))
         JOIN `leito` `le` ON ((`le`.`Ala_id` = `a`.`id`)))
     WHERE 

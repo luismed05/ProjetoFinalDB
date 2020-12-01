@@ -1,8 +1,8 @@
-USE `coronahelpy`;
+USE `CoronaHelpy`;
 DROP PROCEDURE IF EXISTS `final_atendimento`;
 
 DELIMITER $$
-USE `coronahelpy`$$
+USE `CoronaHelpy`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `final_atendimento`(IN atendimento_id INT)
 BEGIN
 	DECLARE equipe_id INT;

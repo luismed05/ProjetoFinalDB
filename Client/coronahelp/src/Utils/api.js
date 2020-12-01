@@ -33,8 +33,16 @@ export const Logout = (email) => {
     return api.post('/SignOut', { email });
 }
 
-export const CadPaciente = (paciente) => {
-    return api.post('/Cadpaciente', {paciente});
+export const cadPaciente = (paciente) => {
+    return api.post('/paciente', {paciente});
+}
+
+export const updatePaciente = (cpf, paciente) => {
+    return api.put(`/paciente/${cpf}` , {paciente});
+}
+
+export const getPaciente = (cpf) => {
+    return api.get(`/paciente/${cpf}`);
 }
 
 export const getPlanos = () => {

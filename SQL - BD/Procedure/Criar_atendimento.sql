@@ -1,15 +1,16 @@
-USE `coronahelpy`;
+USE `CoronaHelpy`;
 DROP PROCEDURE IF EXISTS `Criar_Atendimento`;
 
 DELIMITER $$
-USE `coronahelpy`$$
+USE `CoronaHelpy`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Criar_Atendimento`(
-	IN paciente_cpf BIGINT,
+	IN paciente_cpf VARCHAR(45),
     IN localizacao_paciente VARCHAR(45),
     IN plano_saude_pacienteCod INT,
     IN Urgencia VARCHAR(45),
     IN email_user VARCHAR(45),
     IN data_inicio DATETIME(6),
+    IN endereco_paciente VARCHAR(45),
     OUT Id_Atendimento INT
     )
 BEGIN
@@ -54,7 +55,8 @@ BEGIN
         paciente_cpf,
         leito_numero,
         ambulancia_placa,
-        localizacao_Cod
+        localizacao,
+        endereco
 	)
     VALUES (
 		Urgencia,
@@ -64,7 +66,8 @@ BEGIN
         paciente_cpf,
         leito_numero,
         ambulancia_placa,
-        localizacao_paciente
+        localizacao_paciente,
+        endereco_paciente
 	);
     
     UPDATE Ambulancia SET disponivel = 0 WHERE placa = ambulancia_placa;
