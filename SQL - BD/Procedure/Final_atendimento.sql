@@ -18,6 +18,8 @@ BEGIN
     UPDATE Equipe SET disponivel = 1 WHERE id = equipe_id;
     
     UPDATE Leito SET disponivel = 1 WHERE Numero = leito_numero;
+    
+    UPDATE Atendimento set data_fim = NOW() WHERE  Atendimento.id =  atendimento_id;
 END$$
 
 DELIMITER ;

@@ -56,3 +56,7 @@ export const makethecall = (call) => {
 export const finalizarAtt = (id) => {
     return api.delete(`/finalizarAtt/${id}`);
 }
+
+export const checkAtendimento = (email) => {
+    return api.get(`/checkAtendimento/${email}`);
+}

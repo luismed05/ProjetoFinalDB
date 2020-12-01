@@ -14,7 +14,7 @@ module.exports = app => {
     app.get('/users', Usuarios.index)
     app.post('/SignUp', Usuarios.create)
     app.get('/user/:email', Usuarios.show)
-    app.delete('/user/:email', Usuarios.delete)
+    app.delete('/user/:email', Usuarios.delete) 
     // app.put('/user/:email', Usuarios.update)
 
     //Rotas padrões de Pacientes
@@ -28,6 +28,7 @@ module.exports = app => {
     //Rotas de Atendimento
     app.post('/callAmbulance', Atendimentos.create);
     app.delete('/finalizarAtt/:id', Atendimentos.delete);
+    app.get('/checkAtendimento/:email', Atendimentos.show);
 
     //Rotas para autenticação de usuario
     app.post('/Signin', Usuarios.login)

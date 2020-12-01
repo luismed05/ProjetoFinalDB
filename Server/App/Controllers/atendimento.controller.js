@@ -12,7 +12,32 @@ const Atendimento = function(att){
 };
 
 Atendimento.show = async (req,result) => {
-
+    let email = req.params.email;
+    sql.query('SELECT * FROM Atendimento WHERE usuario_email= ?;',email, (err,res) => {
+        if(err){
+            if (debug=true) console.log(err)
+            console.log("[Atendimento] Erro ao realizar consulta");
+            result.status(500).send({ message: "[Atendimento] Erro ao realizar consulta" });
+        }
+        let openID
+        for( let i = 0; i < res.length;i ++){
+            console.log(res[i].data_fim == null)
+            if(res[i].data_fim == null){
+                openID = res[i].id;
+            }
+        }
+        if(openID){
+            sql.query(`SELECT * FROM atendimento_info WHERE Codigo_do_atendimento = ?;`,openID, (err,resSelect) => {
+                if(err){
+                    result.status(500).send({message: "[Atendimento] Erro na busca do atendimento"})
+                }
+                console.log('[Atendimento] Busca realizada com sucesso');
+                result.status(200).send({resSelect});
+            })
+        }else{
+            result.status(500).send({ message: "[Atendimento] Nenhuma consulta consulta aberta achada" });
+        }
+    })
 }
 
 Atendimento.create = async (req,result) => {
@@ -33,16 +58,16 @@ Atendimento.create = async (req,result) => {
                 result.status(500).send({ message: "[Atendimento] Erro na criação"});
                 return false;
             }
-
             //chamar VIEW para mostrar dados do atendimento
-            sql.query('SELECT * FROM CoronaHelpy.atendimento_info WHERE `Codigo do atendimento` = @id_atendimento;',
+            sql.query('SELECT * FROM atendimento_info WHERE `Codigo_do_atendimento` = @id_atendimento;',
                 (err,resSelect)=>{
                     if(err){
                         if(debug == true) console.log(err)
                         console.log('[Atendimento] Erro na busca');
                     }
+                    console.log(resSelect)
                     console.log("[Atendimento] - Criado com sucesso!");
-                    result.status(200).send({data: resSelect, message: "[Atendimento] - Criado com sucesso!"});
+                    result.status(200).send({resSelect});
             });
         })
 }
