@@ -11,8 +11,8 @@ PlanoSaude.index = async (req,result) => {
     await sql.query('SELECT * FROM PlanoDeSaude;' , (err,res) => {
         if(err) {
             if(debug == true) console.log(err)
-            console.log("Erro ao consultar Planos");
-            result.status(500).send({message: "erro ao consultar planos"})
+            console.log("[Planos de Saúde]  - Erro ao realizar consulta");
+            result.status(500).send({message: "[Planos de Saúde]  - Erro ao realizar consulta"})
             return false;
         }
 

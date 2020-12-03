@@ -16,10 +16,10 @@ Atendimento.show = async (req,result) => {
     sql.query('SELECT * FROM Atendimento WHERE usuario_email= ?;',email, (err,res) => {
         if(err){
             if (debug=true) console.log(err)
-            console.log("[Atendimento] Erro ao realizar consulta");
-            result.status(500).send({ message: "[Atendimento] Erro ao realizar consulta" });
+            console.log("[Atendimento] - Erro ao realizar consulta");
+            result.status(500).send({ message: "[Atendimento] - Erro ao realizar consulta" });
         }
-        let openID
+        let openID;
         for( let i = 0; i < res.length;i ++){
             console.log(res[i].data_fim == null)
             if(res[i].data_fim == null){
@@ -27,21 +27,24 @@ Atendimento.show = async (req,result) => {
             }
         }
         if(openID){
-            sql.query(`SELECT * FROM atendimento_info WHERE Codigo_do_atendimento = ?;`,openID, (err,resSelect) => {
-                if(err){
-                    result.status(500).send({message: "[Atendimento] Erro na busca do atendimento"})
+            sql.query(`SELECT * FROM atendimento_info WHERE Codigo_do_atendimento = ?;`,openID, (errSelect,resSelect) => {
+                if(errSelect){
+                    console.log('[Atendimento] - Erro na busca do atendimento');
+                    result.status(500).send({message: "[Atendimento] - Erro na busca do atendimento"})
                 }
-                console.log('[Atendimento] Busca realizada com sucesso');
-                result.status(200).send({resSelect});
+                else{
+                    console.log('[Atendimento] - Busca realizada com sucesso');
+                    result.status(200).send({resSelect});
+                }
             })
-        }else{
-            result.status(500).send({ message: "[Atendimento] Nenhuma consulta consulta aberta achada" });
+        } else{
+            result.status(404).send({ message: "[Atendimento] - Nenhum atendimento em andamento foi encontrado" });
         }
     })
 }
 
 Atendimento.create = async (req,result) => {
-    let createAtt = req.body.call
+    let createAtt = req.body.call;
 
     sql.query('SET @id_atendimento = NULL')
     await sql.query("CALL Criar_Atendimento(?,?,?,?,?,?,?, @id_atendimento)",
@@ -54,8 +57,8 @@ Atendimento.create = async (req,result) => {
         createAtt.endereco_paciente], (err,res) => {
             if(err){
                 if(debug === true) console.log(err);
-                console.log("[Atendimento] Erro na criação");
-                result.status(500).send({ message: "[Atendimento] Erro na criação"});
+                console.log("[Atendimento] - Erro na criação");
+                result.status(500).send({ message: "[Atendimento] - Erro na criação"});
                 return false;
             }
             //chamar VIEW para mostrar dados do atendimento
@@ -63,7 +66,7 @@ Atendimento.create = async (req,result) => {
                 (err,resSelect)=>{
                     if(err){
                         if(debug == true) console.log(err)
-                        console.log('[Atendimento] Erro na busca');
+                        console.log('[Atendimento] - Erro na busca');
                     }
                     console.log(resSelect)
                     console.log("[Atendimento] - Criado com sucesso!");
@@ -77,10 +80,10 @@ Atendimento.delete = async (req,result) => {
     await sql.query(`CALL final_atendimento(${id})`, (req,res) => {
         if(err){
             if(debug = true) console.log(err)
-            console.log('Erro ao finalizar atendimento');
-            result.status(500).send({message: "Erro ao finalizar atendimento"})
+            console.log('[Atendimento] - Erro na finalização');
+            result.status(500).send({message: "[Atendimento] - Erro na finalização"})
         }
-        result.status(200).send({Message: "Atendimento finalizado com sucesso"})
+        result.status(200).send({Message: "[Atendimento] -  finalizado com sucesso"})
     })
 }
 
