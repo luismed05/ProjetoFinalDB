@@ -88,7 +88,7 @@ Atendimento.create = async (req,result) => {
 
 Atendimento.delete = async (req,result) => {
     let id = req.params.id;
-    await sql.query(`CALL final_atendimento(${id})`, (req,res) => {
+    await sql.query(`CALL final_atendimento(${id})`, (err,res) => {
         if(err){
             if(debug = true) console.log(err)
             console.log('[Atendimento] - Erro na finalização');

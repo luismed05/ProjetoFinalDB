@@ -13,7 +13,8 @@ import { GetUser,
         checkAtendimento,
         getHospitais,
         DelHospital,
-        getAtendimentos
+        getAtendimentos,
+        finalizarAtt
     } from "../../Utils/api";
 import { Modal, Table, Card, Form, Row, Button } from 'react-bootstrap';
 import useForceUpdate from 'use-force-update';
@@ -131,9 +132,9 @@ export default function HomePage() {
                         })
                     getAtendimentos()
                         .then(resAtendimentos => {
-                            let atendimentos = resAtendimentos.data;
-                            console.log(resAtendimentos.data)
-                            setAtendimentos()
+                            let atendimentos = resAtendimentos.data.res;
+                            console.log(atendimentos)
+                            setAtendimentos(atendimentos);
                         })
                 })
             }else{
@@ -201,6 +202,12 @@ export default function HomePage() {
                 console.log(err);
             }
         })
+    }
+
+    const FinalizarAtt = async(id) => {
+        finalizarAtt(id)
+            .then(res => {alert('Atendimento Finalizado')})
+            .catch(err => console.log(err))
     }
 
     const DeletarHospital = async(id) => {
@@ -409,25 +416,24 @@ export default function HomePage() {
             <Table style={{maxWidth: "70vw"}}>
                   <thead>
                       <tr>
-                          <th>Nome</th>
-                          <th>Email</th>
+                          <th>Codigo</th>
+                          <th>Urgencia</th>
+                          <th>Email do Usuario</th>
+                          <th>Data de Inicio</th>
                           <th></th>
                       </tr>
                   </thead>
                   <tbody>
-                      {Users.map(user => (
-                            <tr key={user.email}>
-                              <td>{user.nome}</td>
-                              <td>{user.email}</td>
-                              <td>
-                                  {User.email !== user.email ? (
-                                      <Button onClick={() => DeletarUsuario(user.email)}>Deletar</Button>
-                                  ) : (
-                                      <Button disabled >Deletar</Button>
-                                  )}
-                                  
-                              </td>
-                            </tr>
+                      {Atendimentos.map(att => (
+                          <tr key={att.id}>
+                          <td>{att.id}</td>
+                          <td>{att.Urgencia}</td>
+                          <td>{att.usuario_email}</td>
+                          <td>{att.data_inicio.substr(0,10)}</td>
+                          <td>
+                            <Button onClick={() => FinalizarAtt(att.id)}>Finalizar</Button> 
+                          </td>
+                        </tr> 
                           )
                       )}
                   </tbody>
