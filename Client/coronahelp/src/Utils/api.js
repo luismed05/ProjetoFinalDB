@@ -76,3 +76,7 @@ export const finalizarAtt = (id) => {
 export const checkAtendimento = (email) => {
     return api.get(`/atendimentos/${email}`);
 }
+
+export const getAtendimentos = () => {
+    return api.get('atendimentos');
+}

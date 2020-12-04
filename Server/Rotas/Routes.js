@@ -40,6 +40,7 @@ module.exports = app => {
 
 
     //Rotas de Atendimento
+    app.get('/atendimentos', Atendimentos.index);
     app.post('/atendimentos', Atendimentos.create); //criar atendimento
     app.delete('/atendimentos/:id', Atendimentos.delete); //finalizar atendimento
     app.get('/atendimentos/:email', Atendimentos.show); //encontra atendimentos de um usuario
