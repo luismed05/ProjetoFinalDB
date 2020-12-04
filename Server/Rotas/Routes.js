@@ -21,10 +21,10 @@ module.exports = app => {
 
     //Rotas Padrão para hospital
     app.get('/hospitais', Hospitais.index);
-    app.get('/hospital/:id', Hospitais.show);
-    app.post('/hospital', Hospitais.create);
-    app.put('/hospital/:id', Hospitais.update);
-    app.delete('/hospital/:id', Hospitais.delete);
+    app.get('/hospitais/:id', Hospitais.show);
+    app.post('/hospitais', Hospitais.create);
+    app.put('/hospitais/:id', Hospitais.update);
+    app.delete('/hospitais/:id', Hospitais.delete);
 
 
     //Rotas padrões de Pacientes

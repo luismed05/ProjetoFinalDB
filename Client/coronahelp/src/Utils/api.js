@@ -60,3 +60,7 @@ export const finalizarAtt = (id) => {
 export const checkAtendimento = (email) => {
     return api.get(`/checkAtendimento/${email}`);
 }
+
+export const getHospitais = () =>{
+    return api.get('/hospitais');
+}

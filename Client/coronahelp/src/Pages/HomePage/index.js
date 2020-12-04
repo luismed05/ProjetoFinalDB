@@ -10,7 +10,8 @@ import { GetUser,
         getPaciente,
         updatePaciente,
         cadPaciente,
-        checkAtendimento
+        checkAtendimento,
+        getHospitais
     } from "../../Utils/api";
 import { Modal, Table, Card, Form, Row, Button } from 'react-bootstrap';
 import useForceUpdate from 'use-force-update';
@@ -27,9 +28,11 @@ export default function HomePage() {
     const [showCall, setshowCall] = useState(false);
     const [showPanel, setShowPanel] = useState(false);
     const [showListAtt, setShowListAtt] = useState(false);
+    const [showHospitais, setShowHospitais] = useState(false);
 
     const [User,setUser] = useState({email: "",nome: "", admin: ""});
     const [Users,setUsers] = useState([]);
+    const [Hospitais,setHospitais] = useState([]);
     const [Planos, setPlanos] = useState([]);
 
     //State de Paciente
@@ -58,6 +61,9 @@ export default function HomePage() {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const handleCloseHospitais = () => setShowHospitais(false);
+    const handleShowHospitais = () => setShowHospitais(true);
 
     const handleCloseListAtt = () => setShowListAtt(false);
     const handleShowListAtt = () => setShowListAtt(true);
@@ -104,19 +110,22 @@ export default function HomePage() {
                           setPlanos(planos);
                         })
                     checkAtendimento(email)
-                    .then(resAtt => {
-                        console.log(resAtt);
-                        setShowAtt(true);
-                        setshowCall(false);
-                        let att = resAtt.data.resSelect[0];
-                        setCodigoAtt(att.Codigo_do_atendimento);
-                        setPlacaAmb(att.Placa_da_Ambulancia);
-                        setMedicoRes(att.Medico_Responsavel);
-                        setUrgenciaAtt(att.Urgencia_de_Atendimento); 
-                    })
-                    .catch(err => {
-                        console.log(err.response.data.message);
-                    })
+                        .then(resAtt => {
+                            console.log(resAtt);
+                            setShowAtt(true);
+                            setshowCall(false);
+                            let att = resAtt.data.resSelect[0];
+                            setCodigoAtt(att.Codigo_do_atendimento);
+                            setPlacaAmb(att.Placa_da_Ambulancia);
+                            setMedicoRes(att.Medico_Responsavel);
+                            setUrgenciaAtt(att.Urgencia_de_Atendimento); 
+                        })
+                        .catch(err => console.log(err));
+                    getHospitais()
+                        .then(resHospi => {
+                            let hospitais = resHospi.data;
+                            setHospitais(hospitais);
+                        })
                 })
             }else{
                 throw "error";
@@ -354,6 +363,30 @@ export default function HomePage() {
           <Modal id="PaineldoAdministrador" show={showPanel} onHide={handleClosePanel}>
             <button onClick={handleShow}>Lista de Usuarios</button>
             <button onClick={handleShowListAtt}>Lista de Atendimentos</button>
+            <button onClick={handleShowHospitais}>Lista de Hospitais</button>
+          </Modal>
+          <Modal id="ListarHospitais" size="lg" show={showHospitais} onHide={handleCloseHospitais}>
+            <Table style={{maxWidth: "70vw"}}>
+                  <thead>
+                      <tr>
+                          <th>Nome</th>
+                          <th>Endereço</th>
+                          <th></th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {Hospitais.map(hospital => (
+                            <tr key={hospital.id}>
+                              <td>{hospital.nome}</td>
+                              <td>{hospital.endereco}</td>
+                              <td>
+                                <Button onClick={() => DeletarUsuario(hospital.id)}>Deletar</Button>
+                              </td>
+                            </tr>
+                          )
+                      )}
+                  </tbody>
+              </Table>
           </Modal>
           <Modal id="ListarAtendimentos" size="lg" show={showListAtt} onHide={handleCloseListAtt}>
             <Table style={{maxWidth: "70vw"}}>
