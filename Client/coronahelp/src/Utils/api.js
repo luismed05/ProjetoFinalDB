@@ -66,13 +66,13 @@ export const createPlano = (plano) => {
 }
 
 export const makethecall = (call) => {
-    return api.post('/callAmbulance', {call});
+    return api.post('/atendimentos', {call});
 }
 
 export const finalizarAtt = (id) => {
-    return api.delete(`/finalizarAtt/${id}`);
+    return api.delete(`/atendimentos/${id}`);
 }
 
 export const checkAtendimento = (email) => {
-    return api.get(`/checkAtendimento/${email}`);
+    return api.get(`/atendimentos/${email}`);
 }
