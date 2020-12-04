@@ -206,14 +206,19 @@ export default function HomePage() {
 
     const FinalizarAtt = async(id) => {
         finalizarAtt(id)
-            .then(res => {alert('Atendimento Finalizado')})
+            .then(res => {
+                alert('Atendimento Finalizado')  
+                window.location.reload();
+            })
             .catch(err => console.log(err))
     }
 
     const DeletarHospital = async(id) => {
         DelHospital(id)
-            .then(res=> 
-                {alert("Hospital deletado")})
+            .then(res=> {
+                alert("Hospital deletado")
+                window.location.reload();
+            })
             .catch(err => 
                 {alert("Erro ao deletar")})
     }

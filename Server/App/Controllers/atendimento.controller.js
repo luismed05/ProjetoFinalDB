@@ -12,7 +12,7 @@ const Atendimento = function(att){
 };
 
 Atendimento.index = async (req, result) => {
-    await sql.query('SELECT * FROM Atendimento;' , (err,res) => {
+    await sql.query('SELECT * FROM Atendimento WHERE data_fim IS NULL;' , (err,res) => {
         if(err) {
             if(debug == true) console.log(err)
             console.log("[Atendimento]  - Erro ao realizar consulta");
@@ -81,7 +81,12 @@ Atendimento.create = async (req,result) => {
                     }
                     console.log(resSelect)
                     console.log("[Atendimento] - Criado com sucesso!");
-                    result.status(200).send({resSelect});
+                    if(resSelect.length > 0){
+                        result.status(200).send({resSelect});
+
+                    }else{
+                        result.status(500).send({message: "[Atendimento] Erro ao Solicitar Atendimento"});
+                    }
             });
         })
 }
