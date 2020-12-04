@@ -12,7 +12,8 @@ import { GetUser,
         cadPaciente,
         checkAtendimento,
         getHospitais,
-        DelHospital
+        DelHospital,
+        getAtendimentos
     } from "../../Utils/api";
 import { Modal, Table, Card, Form, Row, Button } from 'react-bootstrap';
 import useForceUpdate from 'use-force-update';
@@ -35,6 +36,7 @@ export default function HomePage() {
     const [Users,setUsers] = useState([]);
     const [Hospitais,setHospitais] = useState([]);
     const [Planos, setPlanos] = useState([]);
+    const [Atendimentos, setAtendimentos] = useState([]);
 
     //State de Paciente
     const [Genero, setGenero] = useState("");
@@ -126,6 +128,12 @@ export default function HomePage() {
                         .then(resHospi => {
                             let hospitais = resHospi.data;
                             setHospitais(hospitais);
+                        })
+                    getAtendimentos()
+                        .then(resAtendimentos => {
+                            let atendimentos = resAtendimentos.data;
+                            console.log(resAtendimentos.data)
+                            setAtendimentos()
                         })
                 })
             }else{
