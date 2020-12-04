@@ -94,4 +94,4 @@ Hospital.delete = (req,result) => {
     })
 }
 
-module.exports = Proprietario;
+module.exports = Hospital;

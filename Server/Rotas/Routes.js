@@ -17,6 +17,11 @@ module.exports = app => {
     app.delete('/user/:email', Usuarios.delete) 
     // app.put('/user/:email', Usuarios.update)
 
+
+    //Rotas Padrão para 
+    
+
+
     //Rotas padrões de Pacientes
     app.post('/paciente', Pacientes.create);
     app.put('/paciente/:cpf', Pacientes.update)
@@ -34,9 +39,6 @@ module.exports = app => {
     app.post('/Signin', Usuarios.login)
     app.post('/auth', Usuarios.auth)
     app.post('/SignOut', Usuarios.logout)
-
-
-
 
     // Antigo Trabalho de DB
     //------------------------------------------------
