@@ -11,7 +11,8 @@ import { GetUser,
         updatePaciente,
         cadPaciente,
         checkAtendimento,
-        getHospitais
+        getHospitais,
+        DelHospital
     } from "../../Utils/api";
 import { Modal, Table, Card, Form, Row, Button } from 'react-bootstrap';
 import useForceUpdate from 'use-force-update';
@@ -192,6 +193,14 @@ export default function HomePage() {
                 console.log(err);
             }
         })
+    }
+
+    const DeletarHospital = async(id) => {
+        DelHospital(id)
+            .then(res=> 
+                {alert("Hospital deletado")})
+            .catch(err => 
+                {alert("Erro ao deletar")})
     }
 
     const SendAtendimento = async(event) => {
@@ -380,7 +389,7 @@ export default function HomePage() {
                               <td>{hospital.nome}</td>
                               <td>{hospital.endereco}</td>
                               <td>
-                                <Button onClick={() => DeletarUsuario(hospital.id)}>Deletar</Button>
+                                <Button onClick={() => DeletarHospital(hospital.id)}>Deletar</Button>
                               </td>
                             </tr>
                           )

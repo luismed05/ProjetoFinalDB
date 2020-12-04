@@ -46,7 +46,23 @@ export const getPaciente = (cpf) => {
 }
 
 export const getPlanos = () => {
-    return api.get('/getPlanos');
+    return api.get('/planos');
+}
+
+export const showPlano = (codigo) => {
+    return api.get(`/planos/${codigo}`);
+}
+
+export const updatePlano = (codigo, plano) => {
+    return api.put(`/planos/${codigo}`, {plano});
+}
+
+export const deletePlano = (codigo) => {
+    return api.delete(`/planos/${codigo}`);
+}
+
+export const createPlano = (plano) => {
+    return api.post('/planos', {plano});
 }
 
 export const makethecall = (call) => {
@@ -61,6 +77,10 @@ export const checkAtendimento = (email) => {
     return api.get(`/checkAtendimento/${email}`);
 }
 
-export const getHospitais = () =>{
+export const getHospitais = () => { 
     return api.get('/hospitais');
+}
+
+export const DelHospital = (id) => {
+    return api.delete(`/hospitais/${id}`);
 }

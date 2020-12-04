@@ -5,12 +5,16 @@ VALUES
     ('admin@admin','123456','Administrador',1),
     ('valentin@email.com','123456','Valentin Ferreira Paes',0),
     ('luis@email.com','123456','Luis Felipe de Assis Medeiros',0);
+    ('joao@email.com','123456','Joao Assis Medeiros',0);
+    ('pedro@email.com','123456','Pedro Henrique de Assis Medeiros',0);
 
 INSERT INTO PlanoDeSaude (codigo,nome)
 VALUES 
     (2569,'Amil 400'),
     (7845,'Unimed Nacional'),
-    (0001,'SUS');
+    (0001,'SUS'),
+    (7485,'TJDFT'),
+    (8596,'STJ');
 
 INSERT INTO Paciente (cpf,nome,genero,data_de_nascimento,peso,altura,sintomas)
 VALUES 
