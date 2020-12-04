@@ -92,8 +92,8 @@ VALUES
     (1000101, 'João Silveria Cunha', 10001),
     (1000202, 'Danilo Mendonça de Morais', 10002),
     (1000303, 'Roberto Miguel Lemos', 10003);
-    (1000403, 'Regina Casé', 10004);
-    (1000503, 'Lady Gaga', 10004);
+    (1000404, 'Regina Casé', 10004);
+    (1000505, 'Lady Gaga', 10004);
 
 INSERT INTO Medico (matricula,nome,especialidade,hospital_id)
 VALUES 
