@@ -15,11 +15,11 @@ Usuario.index = async (req, result) => {
     await sql.query("SELECT * FROM Usuario", (err,res) => {
         if(err){
             if(debug == true) console.log(err)
-            console.log('erro ao realizar consulta');
-            result.status(500).send({message: "erro ao realizar consulta no banco"});
+            console.log('[Usuário] - Erro ao realizar consulta');
+            result.status(500).send({message: "[Usuário] - Erro ao realizar consulta"});
             return false;
         }
-        console.log("consulta realizada com sucesso");
+        console.log("[Usuário] - Consulta realizada com sucesso");
         result.status(200).send(res)
     })
 }
@@ -64,8 +64,8 @@ Usuario.auth = async (req,result) => {
     await sql.query(`SELECT tokenAcesso FROM Usuario WHERE email = "${body.email}"`, (err,res) => {
         if(err){
             if(debug == true) console.log(err)
-            console.log("Erro ao consultar");
-            result.status(500).send({message: "erro ao consultar usuario"});
+            console.log("[Usuário] - Erro ao consultar");
+            result.status(500).send({message: "[Usuário] - Erro ao consultar"});
         }
 
         if(debug == true) console.log(res)
@@ -95,11 +95,11 @@ Usuario.logout = async (req,result) => {
     await sql.query(`UPDATE Usuario SET tokenAcesso = "NULL" WHERE email = "${body.email}"`, (err,res) => {
         if(err){
             if(debug == true) console.log(err)
-            console.log("Erro ao atualizar tabela");
+            console.log("[Usuário] - Erro ao atualizar tabela");
             result.status(500).send({message: "erro ao deslogar usuario"});
         }
 
-        result.status(200).send({message: "usuario deslogado com sucesso"})
+        result.status(200).send({message: "[Usuário] - Desconectado com sucesso"})
     })
 }
 
@@ -110,11 +110,11 @@ Usuario.show = async (req,result) => {
     await sql.query(`SELECT * FROM Usuario WHERE email = "${email}"`, (err,res) => {
         if(err){
             if(debug == true) console.log(err)
-            console.log("Erro ao consultar usuario");
-            result.status(500).send({message: "erro ao consultar usuario"});
+            console.log("[Usuário] - Erro ao realizar consulta");
+            result.status(500).send({message: "[Usuário] - Erro ao realizar consulta"});
         }
 
-        console.log("usuario consultado com sucesso");
+        console.log("[Usuário] - Consulta realizada com sucesso");
         result.status(200).send(res);
     })
 }
@@ -126,12 +126,12 @@ Usuario.create = async (req, result) => {
     await sql.query("INSERT INTO Usuario SET ?", novoProp, (err,res) => {
         if(err) {
             if(debug == true) console.log(err)
-            console.log("erro ao cadastrar usuario");
-            result.status(500).send({message: "erro ao cadastrar usuario"})
+            console.log("[Usuário] - Erro ao cadastrar");
+            result.status(500).send({message: "[Usuário] - Erro ao cadastrar"})
             return false;
         }
         
-        console.log("Usuario Cadastrado com sucesso");
+        console.log("[Usuário] - Cadastrado com sucesso");
         result.status(200).send({email: res.email, ...novoProp});
     })
 }
@@ -142,13 +142,13 @@ Usuario.delete = async (req,result) => {
     await sql.query(`DELETE FROM Usuario WHERE email = "${email}"`, (err,res) => {
         if(err) {
             if(debug == true) console.log(err)
-            console.log("erro ao deletar usuario");
-            result.status(500).send({message: "erro ao deletar usuario"})
+            console.log("[Usuário] - Erro ao remover");
+            result.status(500).send({message: "[Usuário] - Erro ao deletar"})
             return false;
         }
 
-        console.log("Usuario Deletado com sucesso");
-        result.status(200).send({message: "Deletado com sucesso"});
+        console.log("[Usuário] - Removido com sucesso");
+        result.status(200).send({message: "[Usuário] - Deletado com sucesso"});
     })
 }
 

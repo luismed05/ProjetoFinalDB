@@ -95,20 +95,20 @@ export default function HomePage() {
                           let planos = resPlanos.data.res;
                           setPlanos(planos);
                         })
-                    checkAtendimento(email)
-                    .then(resAtt => {
-                        console.log(resAtt);
-                        setShowAtt(true);
-                        setshowCall(false);
-                        let att = resAtt.data.resSelect[0];
-                        setCodigoAtt(att.Codigo_do_atendimento);
-                        setPlacaAmb(att.Placa_da_Ambulancia);
-                        setMedicoRes(att.Medico_Responsavel);
-                        setUrgenciaAtt(att.Urgencia_de_Atendimento); 
-                    })
-                    .catch(err => {
-                        console.log(err.response.data.message);
-                    })
+                    // checkAtendimento(email)
+                    // .then(resAtt => {
+                    //     console.log(resAtt);
+                    //     setShowAtt(true);
+                    //     setshowCall(false);
+                    //     let att = resAtt.data.resSelect[0];
+                    //     setCodigoAtt(att.Codigo_do_atendimento);
+                    //     setPlacaAmb(att.Placa_da_Ambulancia);
+                    //     setMedicoRes(att.Medico_Responsavel);
+                    //     setUrgenciaAtt(att.Urgencia_de_Atendimento); 
+                    // })
+                    // .catch(err => {
+                    //     console.log(err.response.data.message);
+                    // })
                 })
             }else{
                 throw "error";
@@ -330,9 +330,9 @@ export default function HomePage() {
                               <td>{user.email}</td>
                               <td>
                                   {User.email !== user.email ? (
-                                      <button onClick={() => DeletarUsuario(user.email)}>Deletar</button>
+                                      <Button onClick={() => DeletarUsuario(user.email)}>Deletar</Button>
                                   ) : (
-                                      <button disabled >Deletar</button>
+                                      <Button disabled >Deletar</Button>
                                   )}
                                   
                               </td>
@@ -341,7 +341,7 @@ export default function HomePage() {
                       )}
                   </tbody>
               </Table>
-              <button style={{margin: '1vw 1vw',width: '30%'}} onClick={handleClose} >Fechar</button>
+              <Button style={{width: "fit-content", margin: "6px"}} onClick={handleClose} >Fechar</Button>
           </Modal>
         <div className="header">
             <div>
@@ -353,7 +353,7 @@ export default function HomePage() {
         </div>
         <div className="FakeCard">
             <div>
-                Bem Vindo {User.nome}
+                Bem-vindx, {User.nome}!
             </div>
             <div>
                 {User.admin === 1 && (
