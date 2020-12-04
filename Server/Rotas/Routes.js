@@ -8,6 +8,7 @@ module.exports = app => {
 
     const PlanoSaude = require("../App/Controllers/planodesaude.controller.js");
 
+    const Hospitais = require("../App/Controllers/hospital.controller.js");
 
 
     //Rotas padrões de Usuarios
@@ -18,8 +19,12 @@ module.exports = app => {
     // app.put('/user/:email', Usuarios.update)
 
 
-    //Rotas Padrão para 
-    
+    //Rotas Padrão para hospital
+    app.get('/hospitais', Hospitais.index);
+    app.get('/hospital/:id', Hospitais.show);
+    app.post('/hospital', Hospitais.create);
+    app.put('/hospital/:id', Hospitais.update);
+    app.delete('/hospital/:id', Hospitais.delete);
 
 
     //Rotas padrões de Pacientes
@@ -39,11 +44,4 @@ module.exports = app => {
     app.post('/Signin', Usuarios.login)
     app.post('/auth', Usuarios.auth)
     app.post('/SignOut', Usuarios.logout)
-
-    // Antigo Trabalho de DB
-    //------------------------------------------------
-    // app.post("/proprietario", Proprietarios.create);
-    // app.get("/proprietarios", Proprietarios.index);
-    // app.get(`/proprietarios/:cpf`, Proprietarios.show);
-    // app.delete('/proprietarios', Proprietarios.deleteAll);
 }
