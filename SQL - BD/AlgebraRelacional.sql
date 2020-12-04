@@ -6,12 +6,12 @@ SELECT nome as 'Nome do Hospital',
 FROM Hospital AS h
 JOIN Ala AS a ON h.id = a.hospital_id
 JOIN Leito AS l ON a.id = l.Ala_id
-WHERE (l.disponivel = "sim");
+WHERE (l.disponivel = 1);
 
 SELECT l.Numero
 		FROM Leito AS l
         JOIN Ala AS a ON a.id = l.Ala_id
-		WHERE (l.disponivel = "sim" AND Hospital_id = a.hospital_id) LIMIT 1;
+		WHERE (l.disponivel = 1 AND Hospital_id = a.hospital_id);
 
 SELECT e.id as 'Codigo da Equipe', 
 	m.nome as 'Nome do medico Responsavel' 
