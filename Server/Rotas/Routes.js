@@ -40,9 +40,10 @@ module.exports = app => {
 
 
     //Rotas de Atendimento
-    app.post('/callAmbulance', Atendimentos.create);
-    app.delete('/finalizarAtt/:id', Atendimentos.delete);
-    app.get('/checkAtendimento/:email', Atendimentos.show);
+    app.get('/atendimentos', Atendimentos.index);
+    app.post('/atendimentos', Atendimentos.create); //criar atendimento
+    app.delete('/atendimentos/:id', Atendimentos.delete); //finalizar atendimento
+    app.get('/atendimentos/:email', Atendimentos.show); //encontra atendimentos de um usuario
 
     //Rotas para autenticação de usuario
     app.post('/Signin', Usuarios.login)

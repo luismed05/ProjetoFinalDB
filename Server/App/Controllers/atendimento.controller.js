@@ -11,6 +11,17 @@ const Atendimento = function(att){
     this.data_inicio = att.data_inicio
 };
 
+Atendimento.index = async (req, result) => {
+    await sql.query('SELECT * FROM Atendimento;' , (err,res) => {
+        if(err) {
+            if(debug == true) console.log(err)
+            console.log("[Atendimento]  - Erro ao realizar consulta");
+            result.status(500).send({message: "[Atendimento]  - Erro ao realizar consulta"})
+            return false;
+        }
+        result.status(200).send({res});
+    })
+}
 Atendimento.show = async (req,result) => {
     let email = req.params.email;
     sql.query('SELECT * FROM Atendimento WHERE usuario_email= ?;',email, (err,res) => {
