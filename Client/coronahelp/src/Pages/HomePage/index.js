@@ -25,6 +25,8 @@ export default function HomePage() {
     //States de controle de modals
     const [show, setShow] = useState(false);
     const [showCall, setshowCall] = useState(false);
+    const [showPanel, setShowPanel] = useState(false);
+    const [showListAtt, setShowListAtt] = useState(false);
 
     const [User,setUser] = useState({email: "",nome: "", admin: ""});
     const [Users,setUsers] = useState([]);
@@ -56,6 +58,12 @@ export default function HomePage() {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const handleCloseListAtt = () => setShowListAtt(false);
+    const handleShowListAtt = () => setShowListAtt(true);
+
+    const handleClosePanel = () => setShowPanel(false);
+    const handleShowPanel = () => setShowPanel(true);
 
     const handleCloseCall = () => {
         setNome("");
@@ -95,20 +103,20 @@ export default function HomePage() {
                           let planos = resPlanos.data.res;
                           setPlanos(planos);
                         })
-                    // checkAtendimento(email)
-                    // .then(resAtt => {
-                    //     console.log(resAtt);
-                    //     setShowAtt(true);
-                    //     setshowCall(false);
-                    //     let att = resAtt.data.resSelect[0];
-                    //     setCodigoAtt(att.Codigo_do_atendimento);
-                    //     setPlacaAmb(att.Placa_da_Ambulancia);
-                    //     setMedicoRes(att.Medico_Responsavel);
-                    //     setUrgenciaAtt(att.Urgencia_de_Atendimento); 
-                    // })
-                    // .catch(err => {
-                    //     console.log(err.response.data.message);
-                    // })
+                    checkAtendimento(email)
+                    .then(resAtt => {
+                        console.log(resAtt);
+                        setShowAtt(true);
+                        setshowCall(false);
+                        let att = resAtt.data.resSelect[0];
+                        setCodigoAtt(att.Codigo_do_atendimento);
+                        setPlacaAmb(att.Placa_da_Ambulancia);
+                        setMedicoRes(att.Medico_Responsavel);
+                        setUrgenciaAtt(att.Urgencia_de_Atendimento); 
+                    })
+                    .catch(err => {
+                        console.log(err.response.data.message);
+                    })
                 })
             }else{
                 throw "error";
@@ -212,7 +220,7 @@ export default function HomePage() {
     }
   return(
       <div>
-          <Modal className="ModalCallEmergency" size="lg" show={showCall} onHide={handleCloseCall}>
+          <Modal id="FazerChamado" className="ModalCallEmergency" size="lg" show={showCall} onHide={handleCloseCall}>
               <Card className="cardFormCall">
                   <Card.Title>Informe o Paciente:</Card.Title>
                 <Form onSubmit={SendAtendimento}>
@@ -314,7 +322,7 @@ export default function HomePage() {
                 </Form>
               </Card>
           </Modal>
-          <Modal size="lg" show={show} onHide={handleClose}>
+          <Modal id="Listar Usuarios" size="lg" show={show} onHide={handleClose}>
               <Table style={{maxWidth: "70vw"}}>
                   <thead>
                       <tr>
@@ -343,6 +351,38 @@ export default function HomePage() {
               </Table>
               <Button style={{width: "fit-content", margin: "6px"}} onClick={handleClose} >Fechar</Button>
           </Modal>
+          <Modal id="PaineldoAdministrador" show={showPanel} onHide={handleClosePanel}>
+            <button onClick={handleShow}>Lista de Usuarios</button>
+            <button onClick={handleShowListAtt}>Lista de Atendimentos</button>
+          </Modal>
+          <Modal id="ListarAtendimentos" size="lg" show={showListAtt} onHide={handleCloseListAtt}>
+            <Table style={{maxWidth: "70vw"}}>
+                  <thead>
+                      <tr>
+                          <th>Nome</th>
+                          <th>Email</th>
+                          <th></th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {Users.map(user => (
+                            <tr key={user.email}>
+                              <td>{user.nome}</td>
+                              <td>{user.email}</td>
+                              <td>
+                                  {User.email !== user.email ? (
+                                      <Button onClick={() => DeletarUsuario(user.email)}>Deletar</Button>
+                                  ) : (
+                                      <Button disabled >Deletar</Button>
+                                  )}
+                                  
+                              </td>
+                            </tr>
+                          )
+                      )}
+                  </tbody>
+              </Table>
+          </Modal>
         <div className="header">
             <div>
                 CoronaHelp
@@ -357,7 +397,7 @@ export default function HomePage() {
             </div>
             <div>
                 {User.admin === 1 && (
-                    <Button onClick={handleShow} >Painel de Administrador</Button>
+                    <Button onClick={handleShowPanel} >Painel de Administrador</Button>
                 )}
             </div>
         </div>
