@@ -6,7 +6,7 @@ module.exports = app => {
 
     const Atendimentos = require("../App/Controllers/atendimento.controller.js");
 
-    const PlanoSaude = require("../App/Controllers/planodesaude.controller.js");
+    const Planos = require("../App/Controllers/planos.controller.js");
 
     const Hospitais = require("../App/Controllers/hospital.controller.js");
 
@@ -21,19 +21,23 @@ module.exports = app => {
 
     //Rotas Padrão para hospital
     app.get('/hospitais', Hospitais.index);
-    app.get('/hospital/:id', Hospitais.show);
-    app.post('/hospital', Hospitais.create);
-    app.put('/hospital/:id', Hospitais.update);
-    app.delete('/hospital/:id', Hospitais.delete);
+    app.get('/hospitais/:id', Hospitais.show);
+    app.post('/hospitais', Hospitais.create);
+    app.put('/hospitais/:id', Hospitais.update);
+    app.delete('/hospitais/:id', Hospitais.delete);
 
+    //Rotas de plano de saúde
+    app.get('/planos', Planos.index);
+    app.get('/planos/:id', Planos.show);
+    app.post('/planos', Planos.create);
+    app.put('/planos/:id', Planos.update);
+    app.delete('/planos/:id', Planos.delete);
 
     //Rotas padrões de Pacientes
     app.post('/paciente', Pacientes.create);
     app.put('/paciente/:cpf', Pacientes.update)
     app.get('/paciente/:cpf', Pacientes.show);
 
-    //Rotas para plano de saude
-    app.get('/getPlanos',PlanoSaude.index);
 
     //Rotas de Atendimento
     app.post('/callAmbulance', Atendimentos.create);
