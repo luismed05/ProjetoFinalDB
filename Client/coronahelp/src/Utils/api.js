@@ -32,3 +32,59 @@ export const DelUser = (email) => {
 export const Logout = (email) => {
     return api.post('/SignOut', { email });
 }
+
+export const cadPaciente = (paciente) => {
+    return api.post('/paciente', {paciente});
+}
+
+export const updatePaciente = (cpf, paciente) => {
+    return api.put(`/paciente/${cpf}` , {paciente});
+}
+
+export const getPaciente = (cpf) => {
+    return api.get(`/paciente/${cpf}`);
+}
+
+export const getPlanos = () => {
+    return api.get('/planos');
+}
+
+export const showPlano = (codigo) => {
+    return api.get(`/planos/${codigo}`);
+}
+
+export const updatePlano = (codigo, plano) => {
+    return api.put(`/planos/${codigo}`, {plano});
+}
+
+export const deletePlano = (codigo) => {
+    return api.delete(`/planos/${codigo}`);
+}
+
+export const createPlano = (plano) => {
+    return api.post('/planos', {plano});
+}
+
+export const makethecall = (call) => {
+    return api.post('/atendimentos', {call});
+}
+
+export const finalizarAtt = (id) => {
+    return api.delete(`/atendimentos/${id}`);
+}
+
+export const checkAtendimento = (email) => {
+    return api.get(`/atendimentos/${email}`);
+}
+
+export const getHospitais = () => { 
+    return api.get('/hospitais');
+}
+
+export const DelHospital = (id) => {
+    return api.delete(`/hospitais/${id}`);
+}
+
+export const getAtendimentos = () => {
+    return api.get('/atendimentos');
+}

@@ -1,8 +1,15 @@
 //Informações para acesso ao banco
 //------------------------------------------------
-module.exports = {
-    host: "localhost",
-    user: "root",
-    password: "password",
-    database: "CoronaHelpy"
-}
+
+const os = require('os');
+
+
+    dbConfig = {
+        host: "localhost",
+        user: "root",
+        password: "",
+        database: "CoronaHelpy"
+    }
+
+
+module.exports = dbConfig;
